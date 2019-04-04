@@ -405,10 +405,12 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header bg-orange" style="padding:10px;">
-					<h4 class="modal-title" id="defaultModalLabel" style="">ASSET : <span id="server-details-3"></span></h5>
+					<h4 class="modal-title" id="defaultModalLabel">ASSET : <span id="server-details-3"></span></h5>
 				</div>
 				<div class="modal-body">
-                    <form class="form-horizontal" action="">
+                    <form class="form-horizontal" id="edit_form">
+                        {% csrf_token %}
+                        <input type="hidden" id="edit_form_id" name="id" value="">
                         <div class="row clearfix">
                             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
                                 <label for="ipaddress">Asset Name</label>
@@ -568,7 +570,7 @@
                     </form>
 				</div>
 				<div class="modal-footer">
-                    <button type="button" class="btn waves-effect bg-green" style="color:#fff">SUBMIT</button>
+                    <button onclick="edit_form()" type="button" class="btn waves-effect bg-green" style="color:#fff">SUBMIT</button>
 					<button type="button" class="btn waves-effect bg-orange" data-dismiss="modal" style="color:#fff">CLOSE</button>
 				</div>
 			</div>
@@ -659,9 +661,15 @@
                 $("#server_name").val(data[0]["server_name"]);
                 $("#global_ip").val(data[0]["global_ip"]);
                 $("#installed_softwares").val(data[0]["installed_softwares"]);
-
+                $("#edit_form_id").val(data[0]["id"]);
 
                 $("#editModal").modal('show');
+            });
+        }
+
+        function edit_form(){
+            $.post("{% url 'edit-form' %}", $("#edit_form").serialize(), function(data){
+                location.reload();
             });
         }
 

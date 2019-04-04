@@ -518,3 +518,42 @@ def get_edit_form(request):
 			return HttpResponse(status=404)
 		return HttpResponse(status=404)
 	return HttpResponse(status=503)
+
+#
+#	
+#	GET EDIT FORM 
+#
+def edit_form(request):
+	if restrict_access(request.META['REMOTE_ADDR']):
+		if 'logged_in' in request.session:
+			if request.session['logged_in'] == True:
+				if request.is_ajax():
+					if request.POST:
+						id = int(request.POST["id"])		
+						try:
+							server = Server_tbl.objects.get(pk = id)
+
+							server.ipaddress = request.POST["ipaddress"]
+							server.serial_number = request.POST["serial_number"]
+							server.model_number = request.POST["model_number"]
+							server.warranty = request.POST["warranty"]
+							server.admin_uid = request.POST["username"]
+							server.admin_psw = request.POST["password"]
+							server.os = request.POST["os"]
+							server.cpu = request.POST["cpu"]
+							server.ram = request.POST["ram"]
+							server.installed_softwares = request.POST["installed_softwares"]
+							server.server_name = request.POST["server_name"]
+							server.global_ip = request.POST["global_ip"]
+							server.server_details = request.POST["server_details"]
+
+							server.save()
+
+							return HttpResponse('1')	
+						except Server_tbl.DoesNotExist:
+							return HttpResponse(status=500)
+					return HttpResponse(status=404)
+				return HttpResponse(status=404)
+			return HttpResponse(status=404)
+		return HttpResponse(status=404)
+	return HttpResponse(status=503)

@@ -11,4 +11,5 @@ urlpatterns = [
     path('location-select/', views.permission_location_select, name='location-select'),
     path('reports/', views.reports, name='reports'),
     path('get-edit-form/', views.get_edit_form, name='get-edit-form'),
+    path('edit-form/', views.edit_form, name='edit-form'),
 ]
