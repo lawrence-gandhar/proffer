@@ -1,0 +1,673 @@
+﻿{% load static %}
+{% load mul %}
+{% load sub %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Proffer | Fusion BPO Services</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="{% static 'plugins/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="{% static 'plugins/node-waves/waves.css' %}" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="{% static 'plugins/animate-css/animate.css' %}" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link href="{% static 'plugins/morrisjs/morris.css' %}" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="{% static 'css/themes/all-themes.css' %}" rel="stylesheet" />
+</head>
+
+<body class="theme-pink">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+				<i class="material-icons pull-left" style="margin-top:12px;margin-right:5px;font-size:28px;color:#fff;">important_devices</i>
+                <a class="navbar-brand text-center" href="{% url 'dashboard' %}">
+				<span style="margin-top:-100px;">Proffer 
+				<small style="display:inline;font-size:70%;margin-top:-10px;font-weight:bold"> - Asset Management Portal</small></span>
+				</a>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="{% static 'images/user.png' %}" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{name|safe}}</div>
+                    <div class="email">{{email|safe}}</div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="{% url 'logout' %}"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="active">
+                        <a href="{% url 'dashboard' %}">
+                            <i class="material-icons">home</i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+					{% if usertype == 1 %}
+					<li class="">
+                        <a href="{% url 'reports' %}">
+                            <i class="material-icons">show_chart</i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+					<li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">important_devices </i>
+                            <span>Assets Management</span>
+                        </a>
+						<ul class="ml-menu">
+							<li>
+								<a href="{% url 'import-csv' %}">Import</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2018 - 2019 <a href="javascript:void(0);">Fusion BPO</a>.
+                </div>
+                <div class="version">
+                    <b>Version: </b> 1.0.5
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>DASHBOARD</h2>
+            </div>
+
+            <!-- Widgets -->
+            <div class="row clearfix">
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-blue hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">important_devices</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">REGISTERED</div>
+                            <div class="number count-to" data-from="0" data-to="{{total_count|safe}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-pink hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">location_on</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">LOCATIONS ASNG. </div>
+                            <div class="number count-to" data-from="0" data-to="{{locations_assigned_count|safe}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-orange hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">devices</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">IN LOCATIONS</div>
+                            <div class="number count-to" data-from="0" data-to="{{location_count|safe}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-green hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">important_devices</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">CAN ACCESS</div>
+                            <div class="number count-to" data-from="0" data-to="{{access_servers|safe}}" data-speed="15" data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row clearfix">
+            <!-- #END# Widgets -->
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                ASSETS LIST
+                                <small>Active assets in assigned locations</small>
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+								<li class="dropdown">                                    
+									<button type="button" class="btn bg-deep-purple waves-effect dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="material-icons">vpn_key</i>
+										<span>ACCESS</span>
+									</button>
+                                    <ul class="dropdown-menu pull-right">
+										<li><a href="{% url 'dashboard' %}" class="location-filters waves-effect waves-block">Reset </a></li>
+                                        <li><a href="{% url 'dashboard' %}?a=1" class="location-filters waves-effect waves-block">Granted</a></li>
+										<li><a href="{% url 'dashboard' %}?a=0" class="location-filters waves-effect waves-block">Denied</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">                                    
+									<button type="button" class="btn bg-deep-purple waves-effect dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="material-icons">location_on</i>
+										<span>LOCATION</span>
+									</button>
+                                    <ul class="dropdown-menu pull-right">
+										<li><a href="{% url 'dashboard' %}" class="location-filters waves-effect waves-block">Reset </a></li>
+										{% for key, value in location_list.items  %} 
+											<li><a href="{% url 'dashboard' %}?f={{key}}" class="location-filters waves-effect waves-block">{{value}}</a></li>
+										{% endfor %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body table-responsive" style="padding-top:0px;">
+							<div class="row bg-deep-purple" style="padding:10px 20px;margin: 0px -20px;">
+								<span>
+									Filter : {{filter|safe}} 
+								</span>
+								<span class="pull-right">
+									Total Records : {{total_records|safe}} 
+								</span>
+							</div>
+                            <table class="table table-hover" style="margin-top:10px;margin-bottom:0px;">
+                                <thead class="">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ASSET ID</th>
+                                        <th>ASSET NAME</th>
+                                        <th>LOCATION</th>
+                                        <th>SERIAL NUMBER</th>
+                                        <th>MODEL NUMBER</th>
+                                        <th>WARRANTY</th>
+                                        <th>USERNAME</th>
+                                        <th>PASSWORD</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size:85%">
+                                    {% for server in server_list %}
+										{% if server.id|safe in permitted_servers %}
+											<tr id="tr-{{server.id|safe}}" class="bg-green" style="color:#000;">
+										{% else %}
+											<tr id="tr-{{server.id|safe}}">
+										{% endif %}
+											<td>
+												{% if forloop.counter == 1 %}
+													{{server_list.start_index|safe}}
+												{% else %}
+													{% with server_list.number|sub:1 as a1 %}
+													{% with a1|mul:records_per_page as a2 %}
+														{{a2|add:forloop.counter|safe}}
+													{% endwith %}
+													{% endwith %}
+												{% endif %}
+											</td>
+											<th scope="row" onclick="javascript:details_modal({{server.id}})" data-toggle="modal" data-target="#detailsModal" style="cursor:pointer;">ASST-{{server.id|add:1000}}</th>
+											<td>{{server.ipaddress|safe}}</td>
+											<td>
+												{% for key, value in location_list.items  %} 
+													{% if server.location_id|safe == key %}
+														{{value}}
+													{% endif %}
+												{% endfor %}
+											</td>
+											<td>{{server.serial_number|safe}}</td>
+											<td>{{server.model_number|safe}}</td>
+											<td>{{server.warranty|safe}}</td>
+											<td>{{server.admin_uid|safe}}</td>
+											<td>
+												{% if server.id|safe in permitted_servers %}
+													<a href="javascript:open_modal({{server.id|safe}})" style="color:#fff;text-decoration:none;">******</a>
+												{% else %}
+													******
+												{% endif %}
+                                            </td>
+                                            <td class="text-center">
+												{% if server.id|safe in permitted_servers %}
+                                                    <a href="javascript:open_edit_modal({{server.id|safe}})" style="color:#fff;text-decoration:none;">
+                                                        <i class="material-icons" style="font-size:20px">create</i>
+                                                    </a>
+												{% endif %}
+											</td>
+										</tr>
+									{% endfor %}
+                                </tbody>
+                            </table>
+							<div class="row text-center">
+								<div class="pagination" style="margin-bottom:0px;">
+									<span class="step-links">
+										{% if server_list.has_previous %}
+											<a href="?{{query_string|safe}}page=1" class="btn waves-effect bg-orange"><i class="material-icons">first_page</i><span>FIRST</span></a>
+											<a href="?{{query_string|safe}}page={{ server_list.previous_page_number }}" class="btn waves-effect bg-orange"><i class="material-icons">chevron_left</i><span>PREV</span></a>
+										{% endif %}
+
+										<span class="current">
+											<small style="font-weight:bold;padding:0px 20px;">Page {{ server_list.number }} of {{ server_list.paginator.num_pages }}</small>
+										</span>
+
+										{% if server_list.has_next %}
+											<a href="?{{query_string|safe}}page={{ server_list.next_page_number }}"class="btn waves-effect bg-orange"><i class="material-icons">chevron_right</i><span>NEXT</span></a>
+											<a href="?{{query_string|safe}}page={{ server_list.paginator.num_pages }}"class="btn waves-effect bg-orange"><i class="material-icons">last_page</i><span>LAST</span></a>
+										{% endif %}
+									</span>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+			</div>	
+        </div>
+    </section>
+	
+	
+	<div class="modal fade in" id="mdModal" tabindex="-1" role="dialog" style="display: none;">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content modal-col-green">
+				<div class="modal-header">
+					<h5 class="modal-title" id="defaultModalLabel">ASSET - <span id="server-details"></span></h5>
+				</div>
+				<div class="modal-body">
+					<div style="display:block"><strong>USERNAME :</strong> <span style="margin-left:4px;" id="server-username"></div> 
+					<div style="display:block"><strong>PASSWORD :</strong> <span style="margin-left:4px;" id="server-psw"></div> 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade in" id="detailsModal" tabindex="-1" role="dialog" style="display: none;background-color:#f2f2f2">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-orange" style="padding:10px;">
+					<h4 class="modal-title" id="defaultModalLabel" style="">ASSET : <span id="server-details-2"></span></h5>
+				</div>
+				<div class="modal-body table-responsive">
+					<table class="table table-hover">
+						<tr>
+							<td style="width:200px;">Operating System</td>
+							<td>: <span id="os"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">Memory - RAM</td>
+							<td>: <span id="ram"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">CPU</td>
+							<td>: <span id="cpu"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">Server Name</td>
+							<td>: <span id="server_name"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">Installed Softwares</td>
+							<td>: <span id="installed_softwares"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">Global IP</td>
+							<td>: <span id="global_ip"></span></td>
+						</tr>
+						<tr>
+							<td style="width:200px;">Details</td>
+							<td>: <span id="server_details"></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn waves-effect bg-orange" data-dismiss="modal" style="color:#fff">CLOSE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <!-- Edit Modal -->
+    <div class="modal fade in" id="editModal" tabindex="-1" role="dialog" style="display: none;background-color:#f2f2f2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-orange" style="padding:10px;">
+					<h4 class="modal-title" id="defaultModalLabel" style="">ASSET : <span id="server-details-3"></span></h5>
+				</div>
+				<div class="modal-body">
+                    <form class="form-horizontal" action="">
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="ipaddress">Asset Name</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input readonly name="ipaddress" type="text" id="ipaddress" class="form-control" placeholder="Ipaddress or Assest name">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="username" type="text" id="username" class="form-control" placeholder="Username">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="password" type="text" id="password" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="serial_number">Serial Number</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="serial_number" type="text" id="serial_number" class="form-control" placeholder="Serial Number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="model_number">Model Number</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="model_number" type="text" id="model_number" class="form-control" placeholder="Model Number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="warranty">Warranty</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="warranty" type="text" id="warranty" class="form-control" placeholder="Warranty">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="os">OS</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="os" type="text" id="os" class="form-control" placeholder="Operating System">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="ram">RAM</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="ram" type="text" id="ram" class="form-control" placeholder="Memory">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="cpu">CPU</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="cpu" type="text" id="cpu" class="form-control" placeholder="CPU">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="installed_softwares">Softwares</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="installed_softwares" type="text" id="installed_softwares" class="form-control" placeholder="Softwares Installed">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="server_name">Server Name</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="server_name" type="text" id="server_name" class="form-control" placeholder="Server Name">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="global_ip">Global IP</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="global_ip" type="text" id="global_ip" class="form-control" placeholder="Global IP">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 form-control-label">
+                                <label for="server_details">Server Details</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input name="server_details" type="text" id="server_details" class="form-control" placeholder="Server Details">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+				</div>
+				<div class="modal-footer">
+                    <button type="button" class="btn waves-effect bg-green" style="color:#fff">SUBMIT</button>
+					<button type="button" class="btn waves-effect bg-orange" data-dismiss="modal" style="color:#fff">CLOSE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+    <!-- Jquery Core Js -->
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.js' %}"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{% static 'plugins/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+
+	<!-- Jquery CountTo Plugin Js -->
+    <script src="{% static 'plugins/jquery-countto/jquery.countTo.js' %}"></script>
+	
+    <!-- Waves Effect Plugin Js -->
+    <script src="{% static 'plugins/node-waves/waves.js' %}"></script>
+
+
+    <!-- Custom Js -->
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script src="{% static 'js/pages/index.js' %}"></script>
+
+    <!-- Demo Js -->
+    <script src="{% static 'js/demo.js' %}"></script>
+		
+	<script>
+		$(document).ready(function(){
+
+        });
+				
+		function open_modal(id){
+		
+			arr = new Array();
+			$( "#tr-"+id +" td").each(function( index, element ){
+				arr.push($(element).text().trim());
+			});
+			
+			$("span#server-details").text(arr[1]);
+			$("span#server-username").text(arr[6]);
+			
+			$.post("{% url 'get-detials' %}",{"ref_id":id,'csrfmiddlewaretoken': '{{ csrf_token }}'},function(data){
+				$("span#server-psw").text(data);
+				$("#mdModal").modal("show");	
+			});
+		}
+		
+		
+		function details_modal(id){
+		
+			arr = new Array();
+			
+			console.log(arr);
+			
+			$("span#server-details-2").text($("#tr-"+id +" th").text());
+			
+			$.post("{% url 'get-more-detials' %}",{"ref_id":id,'csrfmiddlewaretoken': '{{ csrf_token }}'},function(data){
+				$.each($.parseJSON(data), function(i,v){
+					$.each(v, function(key,value){
+						$("span#"+key).text(value);
+						$("#detailsModal").modal("show");
+					});
+				});
+			});
+		}
+
+        function open_edit_modal(id){
+            
+            $("span#server-details-3").empty().text($("#tr-"+id +" th").text());
+            $.post("{% url 'get-edit-form' %}",{"ref_id":id,'csrfmiddlewaretoken': '{{ csrf_token }}'}, function(data){
+                data = $.parseJSON(data);
+
+                $("#ipaddress").val(data[0]["ipaddress"]);
+                $("#username").val(data[0]["admin_uid"]);
+                $("#password").val(data[0]["admin_psw"]);
+                $("#serial_number").val(data[0]["serial_number"]);
+                $("#model_number").val(data[0]["model_number"]);
+                $("#warranty").val(data[0]["warranty"]);
+                $("#os").val(data[0]["os"]);
+                $("#ram").val(data[0]["ram"]);
+                $("#cpu").val(data[0]["cpu"]);
+                $("#server_details").val(data[0]["server_details"]);
+                $("#server_name").val(data[0]["server_name"]);
+                $("#global_ip").val(data[0]["global_ip"]);
+                $("#installed_softwares").val(data[0]["installed_softwares"]);
+
+
+                $("#editModal").modal('show');
+            });
+        }
+
+	</script>
+	
+	
+</body>
+
+</html>
